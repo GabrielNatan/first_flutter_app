@@ -16,7 +16,10 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Tarefas'),
+          title: Padding(
+            padding: const EdgeInsets.only(left: 32),
+            child: Text('Tarefas'),
+          ),
         ),
         body: ListView(children: [
           Task('Esse é legal'),
@@ -29,22 +32,6 @@ class MyApp extends StatelessWidget {
           Task('Esse é MAIS OU MENOS'),
           Task('Esse é Chato'),
           Task('Esse é Chato'),
-          Task('Esse é Chato'),
-          Task('Esse é Chato'),
-          Task('Esse é Chato'),
-          Task('Esse é legal'),
-          Task('Esse é MAIS OU MENOS'),
-          Task('Esse é Chato'),
-          Task('Esse é Chato'),
-          Task('Esse é Chato'),
-          Task('Esse é Chato'),
-          Task('Esse é Chato'),
-          Task('Esse é MAIS OU MENOS'),
-          Task('Esse é Chato'),
-          Task('Esse é Chato'),
-          Task('Esse é Chato'),
-          Task('Esse é Chato'),
-          Task('Esse é Chato'),
         ]),
         floatingActionButton: FloatingActionButton.large(onPressed: () {
           print("console.log é melhor");
@@ -54,9 +41,17 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Task extends StatelessWidget {
+class Task extends StatefulWidget {
   final String nome;
-  const Task(this.nome, {super.key});
+
+  const Task(this.nome, {Key? key}) : super(key: key);
+
+  @override
+  State<Task> createState() => _TaskState();
+}
+
+class _TaskState extends State<Task> {
+  int nivel = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -69,30 +64,73 @@ class Task extends StatelessWidget {
                 color: Colors.blue,
                 height: 140,
               ),
-              Container(
-                color: Colors.white,
-                height: 100,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        color: Colors.black26,
-                        width: 72,
-                        height: 100,
-                      ),
-                      Container(
-                          width: 200,
-                          child: Text(
-                          nome,
-                          style: TextStyle(
-                            fontSize: 24,
-                            overflow: TextOverflow.ellipsis
+              Column(
+                children: [
+                  Container(
+                    color: Colors.white,
+                    height: 100,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            color: Colors.black26,
+                            width: 72,
+                            height: 100,
                           ),
-                      )),
-                      ElevatedButton(
-                          onPressed: () {}, child: Icon(Icons.arrow_drop_up))
-                    ]),
-              ),
+                          Container(
+                              width: 200,
+                              child: Text(
+                                widget.nome,
+                                style: TextStyle(
+                                    fontSize: 24,
+                                    overflow: TextOverflow.ellipsis),
+                              )),
+                              Container(
+                                width: 52,
+                                height: 52,
+                                child: 
+                          ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  nivel++;
+                                });
+                                print(nivel);
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                Icon(Icons.arrow_drop_up),
+                                Text(
+                                  'Up',
+                                  style: TextStyle(fontSize: 12),
+                                )
+                              ])),
+                            )
+                        ]),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Container(
+                            width: 200,
+                            child: LinearProgressIndicator(
+                                color: Colors.white, value: nivel / 10)),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Text(
+                          'Nivel: $nivel',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              )
             ],
           ),
         ));
