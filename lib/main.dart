@@ -14,63 +14,87 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Stack(
-            alignment: AlignmentDirectional.center,
-            children: [
-              Container(
-                color: Colors.red,
-                height: 100,
-                width: 100,
-              ),
-              Container(
-                color: Colors.green,
-                height: 50,
-                width: 50,
-              ),
-            ],
-          ),
-          Stack(
-            alignment: AlignmentDirectional.center,
-            children: [
-              Container(
-                color: Colors.green,
-                height: 100,
-                width: 100,
-              ),
-              Container(
-                color: Colors.red,
-                height: 50,
-                width: 50,
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                color: Colors.cyan,
-                height: 50,
-                width: 50,
-              ),
-              Container(
-                color: Colors.pink,
-                height: 50,
-                width: 50,
-              ),
-              Container(
-                color: Colors.purple,
-                height: 50,
-                width: 50,
-              )
-            ],
-          )
-        ],
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Tarefas'),
+        ),
+        body: ListView(children: [
+          Task('Esse é legal'),
+          Task('Esse é MAIS OU MENOS'),
+          Task('Esse é Chato'),
+          Task('Esse é Chato'),
+          Task('Esse é Chato'),
+          Task('Esse é Chato'),
+          Task('Esse é Chato'),
+          Task('Esse é MAIS OU MENOS'),
+          Task('Esse é Chato'),
+          Task('Esse é Chato'),
+          Task('Esse é Chato'),
+          Task('Esse é Chato'),
+          Task('Esse é Chato'),
+          Task('Esse é legal'),
+          Task('Esse é MAIS OU MENOS'),
+          Task('Esse é Chato'),
+          Task('Esse é Chato'),
+          Task('Esse é Chato'),
+          Task('Esse é Chato'),
+          Task('Esse é Chato'),
+          Task('Esse é MAIS OU MENOS'),
+          Task('Esse é Chato'),
+          Task('Esse é Chato'),
+          Task('Esse é Chato'),
+          Task('Esse é Chato'),
+          Task('Esse é Chato'),
+        ]),
+        floatingActionButton: FloatingActionButton.large(onPressed: () {
+          print("console.log é melhor");
+        }),
       ),
     );
+  }
+}
+
+class Task extends StatelessWidget {
+  final String nome;
+  const Task(this.nome, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          child: Stack(
+            children: [
+              Container(
+                color: Colors.blue,
+                height: 140,
+              ),
+              Container(
+                color: Colors.white,
+                height: 100,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        color: Colors.black26,
+                        width: 72,
+                        height: 100,
+                      ),
+                      Container(
+                          width: 200,
+                          child: Text(
+                          nome,
+                          style: TextStyle(
+                            fontSize: 24,
+                            overflow: TextOverflow.ellipsis
+                          ),
+                      )),
+                      ElevatedButton(
+                          onPressed: () {}, child: Icon(Icons.arrow_drop_up))
+                    ]),
+              ),
+            ],
+          ),
+        ));
   }
 }
