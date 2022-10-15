@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool opacidade = true;
 
   @override
   Widget build(BuildContext context) {
@@ -21,21 +28,23 @@ class MyApp extends StatelessWidget {
             child: Text('Tarefas'),
           ),
         ),
-        body: ListView(children: [
-          Task('Esse é legal'),
-          Task('Esse é MAIS OU MENOS'),
-          Task('Esse é Chato'),
-          Task('Esse é Chato'),
-          Task('Esse é Chato'),
-          Task('Esse é Chato'),
-          Task('Esse é Chato'),
-          Task('Esse é MAIS OU MENOS'),
-          Task('Esse é Chato'),
-          Task('Esse é Chato'),
-        ]),
+        body: AnimatedOpacity(
+          opacity: opacidade ? 1 : 0,
+          duration: Duration(milliseconds:1000),
+          child: ListView(children: [
+            Task('Esse é legal','https://pbs.twimg.com/media/Eu7m692XIAEvxxP?format=png&name=large',3),
+            Task('Esse é MAIS OU MENOS','https://tswbike.com/wp-content/uploads/2020/09/108034687_626160478000800_2490880540739582681_n-e1600200953343.jpg',2),
+            Task('Esse é Chato','https://thebogotapost.com/wp-content/uploads/2017/06/636052464065850579-137719760_flyer-image-1.jpg',5),
+            Task('Esse é Chato','https://manhattanmentalhealthcounseling.com/wp-content/uploads/2019/06/Top-5-Scientific-Findings-on-MeditationMindfulness-881x710.jpeg',4),
+              
+          ]),
+        ),
         floatingActionButton: FloatingActionButton.large(onPressed: () {
-          print("console.log é melhor");
-        }),
+          setState(() {
+            opacidade = !opacidade;
+          });
+        },
+        child: Icon(Icons.remove_red_eye) ,),
       ),
     );
   }
@@ -43,8 +52,9 @@ class MyApp extends StatelessWidget {
 
 class Task extends StatefulWidget {
   final String nome;
-
-  const Task(this.nome, {Key? key}) : super(key: key);
+  final String foto;
+  final int dificuldade;
+  const Task(this.nome,this.foto,this.dificuldade, {Key? key}) : super(key: key);
 
   @override
   State<Task> createState() => _TaskState();
@@ -61,23 +71,40 @@ class _TaskState extends State<Task> {
           child: Stack(
             children: [
               Container(
-                color: Colors.blue,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: Colors.blue,
+                ),
                 height: 140,
               ),
               Column(
                 children: [
                   Container(
-                    color: Colors.white,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: Colors.white,
+                    ),
                     height: 100,
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            color: Colors.black26,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              color: Colors.black26,
+                            ),
                             width: 72,
                             height: 100,
-                          ),
-                          Container(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(4),
+                              child: Image.network(
+                                widget.foto,
+                                fit: BoxFit.cover,),
+                              ),),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
                               width: 200,
                               child: Text(
                                 widget.nome,
@@ -85,28 +112,38 @@ class _TaskState extends State<Task> {
                                     fontSize: 24,
                                     overflow: TextOverflow.ellipsis),
                               )),
-                              Container(
-                                width: 52,
-                                height: 52,
-                                child: 
-                          ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  nivel++;
-                                });
-                                print(nivel);
-                              },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                              Row(
                                 children: [
-                                Icon(Icons.arrow_drop_up),
-                                Text(
-                                  'Up',
-                                  style: TextStyle(fontSize: 12),
-                                )
-                              ])),
-                            )
+                                  Icon(Icons.star, size: 15,color: (widget.dificuldade >= 1) ? Colors.blue : Colors.blue[100]),
+                                  Icon(Icons.star, size: 15,color: (widget.dificuldade >= 2) ? Colors.blue : Colors.blue[100]),
+                                  Icon(Icons.star, size: 15,color: (widget.dificuldade >= 3) ? Colors.blue : Colors.blue[100]),
+                                  Icon(Icons.star, size: 15,color: (widget.dificuldade >= 4) ? Colors.blue : Colors.blue[100]),
+                                  Icon(Icons.star, size: 15,color: (widget.dificuldade >= 5) ? Colors.blue : Colors.blue[100]),
+                                ],
+                              )
+                          ],),
+                          Container(
+                            width: 52,
+                            height: 52,
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    nivel++;
+                                  });
+                                  print(nivel);
+                                },
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Icon(Icons.arrow_drop_up),
+                                      Text(
+                                        'Up',
+                                        style: TextStyle(fontSize: 12),
+                                      )
+                                    ])),
+                          )
                         ]),
                   ),
                   Row(
@@ -118,7 +155,7 @@ class _TaskState extends State<Task> {
                         child: Container(
                             width: 200,
                             child: LinearProgressIndicator(
-                                color: Colors.white, value: nivel / 10)),
+                                color: Colors.white, value: (widget.dificuldade > 0) ? (nivel/widget.dificuldade):1 / 10)),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(12),
