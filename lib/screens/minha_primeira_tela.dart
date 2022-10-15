@@ -1,5 +1,3 @@
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import 'package:flutter/material.dart';
 
@@ -69,7 +67,7 @@ class MyFirstWidget extends StatelessWidget {
                 color: Colors.amber,
                 width: 300,
                 height: 30,
-                child: Text(
+                child: const Text(
                   'Diamant Amarelo',
                   style: TextStyle(
                     color: Colors.black,
@@ -79,7 +77,7 @@ class MyFirstWidget extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              ElevatedButton(onPressed: (){print('Gabriel');}, child: Text("Aperte o botão!"),)
+              ElevatedButton(onPressed: (){}, child: const Text("Aperte o botão!"),)
             ],
           ));}
 }
