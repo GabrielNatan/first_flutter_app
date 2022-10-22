@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:primeiro_app/data/task_inherited.dart';
 import 'package:primeiro_app/screens/form_screen.dart';
 import '../components/task.dart';
 
@@ -19,25 +20,7 @@ class _InitialScreenState extends State<InitialScreen> {
             child: Text('Tarefas'),
           ),
         ),
-        body: ListView(children: const [
-          Task(
-              'Esse é legal',
-              'assets/images/bike.webp',
-              3),
-          Task(
-              'Esse é MAIS OU MENOS',
-              'assets/images/dash.png',
-              2),
-          Task(
-              'Esse é Chato',
-              'assets/images/livro.jpg',
-              5),
-          Task(
-              'Esse é Chato',
-              'assets/images/meditar.jpeg',
-              4),
-          SizedBox(height: 100,)
-        ]),
+        body: ListView(children: TaskInherited.of(context).taskList),
         floatingActionButton: FloatingActionButton.large(
           onPressed: () {
             Navigator.push(
@@ -51,3 +34,8 @@ class _InitialScreenState extends State<InitialScreen> {
       );
   }
 }
+
+// const [
+         
+//           SizedBox(height: 100,)
+//         ]
