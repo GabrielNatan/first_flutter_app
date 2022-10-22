@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:primeiro_app/data/task_inherited.dart';
 
 class FormScreen extends StatefulWidget {
-  const FormScreen({Key? key}) : super(key: key);
+  const FormScreen({Key? key, required this.taskContext}) : super(key: key);
+
+  final BuildContext taskContext;
 
   @override
   State<FormScreen> createState() => _FormScreenState();
@@ -45,8 +48,9 @@ class _FormScreenState extends State<FormScreen> {
                       },
                       controller: nameController,
                       textAlign: TextAlign.center,
+                      // ignore: prefer_const_constructors
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                         hintText: 'Nome',
                         fillColor: Colors.white70,
                         filled: true,
@@ -67,7 +71,7 @@ class _FormScreenState extends State<FormScreen> {
                       keyboardType: TextInputType.number,
                       controller: difficultyController,
                       textAlign: TextAlign.center,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Dificuldade',
                         fillColor: Colors.white70,
@@ -90,7 +94,7 @@ class _FormScreenState extends State<FormScreen> {
                         return null;
                       },
                       textAlign: TextAlign.center,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Imagem',
                         fillColor: Colors.white70,
@@ -121,16 +125,14 @@ class _FormScreenState extends State<FormScreen> {
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        print(nameController.text);
-                        print(int.parse(difficultyController.text));
-                        print(imageController.text);
+                       TaskInherited.of(widget.taskContext).newTask(nameController.text,imageController.text, int.parse(difficultyController.text),);
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                                 content: Text("Tarefa está sendo adicionada")));
                         Navigator.pop(context);
                       }
                     },
-                    child: Text('Adicionar!'),
+                    child: const Text('Adicionar!'),
                   ),
                 ],
               ),
